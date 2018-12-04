@@ -24,14 +24,14 @@ No.,Name,Type ,Description
 23,smeansz,integer,Mean of the ?ow packet size transmitted by the src 
 24,dmeansz,integer,Mean of the ?ow packet size transmitted by the dst 
 25,trans_depth,integer,Represents the pipelined depth into the connection of http request/response transaction
-26,res_bdy_len,integer,Actual uncompressed content size of the data transferred from the server’s http service.
+26,res_bdy_len,integer,Actual uncompressed content size of the data transferred from the servers http service.
 27,Sjit,Float,Source jitter (mSec)
 28,Djit,Float,Destination jitter (mSec)
 29,Stime,Timestamp,record start time
 30,Ltime,Timestamp,record last time
 31,Sintpkt,Float,Source interpacket arrival time (mSec)
 32,Dintpkt,Float,Destination interpacket arrival time (mSec)
-33,tcprtt,Float,"TCP connection setup round-trip time, the sum of ’synack’ and ’ackdat’."
+33,tcprtt,Float,"TCP connection setup round-trip time, the sum of synack and ackdat."
 34,synack,Float,"TCP connection setup time, the time between the SYN and the SYN_ACK packets."
 35,ackdat,Float,"TCP connection setup time, the time between the SYN_ACK and the ACK packets."
 36,is_sm_ips_ports,Binary,"If source (1) and destination (3)IP addresses equal and port numbers (2)(4)  equal then, this variable takes value 1 else 0"
@@ -42,7 +42,7 @@ No.,Name,Type ,Description
 41,ct_srv_src,integer,No. of connections that contain the same service (14) and source address (1) in 100 connections according to the last time (26).
 42,ct_srv_dst,integer,No. of connections that contain the same service (14) and destination address (3) in 100 connections according to the last time (26).
 43,ct_dst_ltm,integer,No. of connections of the same destination address (3) in 100 connections according to the last time (26).
-44,ct_src_ ltm,integer,No. of connections of the same source address (1) in 100 connections according to the last time (26).
+44,ct_src_ltm,integer,No. of connections of the same source address (1) in 100 connections according to the last time (26).
 45,ct_src_dport_ltm,integer,No of connections of the same source address (1) and the destination port (4) in 100 connections according to the last time (26).
 46,ct_dst_sport_ltm,integer,No of connections of the same destination address (3) and the source port (2) in 100 connections according to the last time (26).
 47,ct_dst_src_ltm,integer,No of connections of the same source (1) and the destination (3) address in in 100 connections according to the last time (26).
