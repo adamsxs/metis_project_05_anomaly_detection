@@ -4,6 +4,7 @@
 Created on Sun Oct 28 15:34:53 2018
 
 @author: sadams
+Cross validation procedures
 """
 
 from collections import defaultdict
@@ -11,7 +12,6 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import accuracy_score
 from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from custom_metrics import scania_score
 import numpy as np
 import pandas as pd
 import xgboost as xgb
