@@ -6,6 +6,7 @@ Contains function that load the data for
 
 '''
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 def load_agg_data(data_dir='./data/',
@@ -132,6 +133,16 @@ def reduce_column(s, to_keep):
         return 'other'
     else:
         return s
+
+def reject_outliers(data, m=5):
+    '''
+    Accepts a 2D Numpy array.
+    Returns the indices rows with all values less than m times larger than the mean for that column.
+    Effectively: returns indices for rows without outlier data.
+    '''
+    array_bools = abs(data - np.mean(data, axis=0)) < m * np.std(data, axis=0)
+    indexes_not_outliers = np.apply_along_axis(all,1,array_bools)
+    return indexes_not_outliers
 
 attack_to_num = {
 	'normal':0,
