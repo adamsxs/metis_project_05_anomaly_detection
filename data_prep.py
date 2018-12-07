@@ -8,11 +8,23 @@ Contains function that load the data for
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-def load_agg_data(data_dir='./data/'):
+def load_agg_data(data_dir='./data/',
+	cat_reduce = True,
+	drop_cols=['srcip', 'sport', 'dstip', 'dsport','stcpb','dtcpb','ltime', 'stime']):
 	'''
-    Load data found in full UNSW-NB15 .csv files.
-
-
+    Load data found in full UNSW-NB15 .csv files into a Pandas DataFrame.
+    Expects individual .csv files to have name 'UNSW-NB15_{}.csv'
+    ---
+    Input:
+        data_dir: string, path to directory holding the UNSW-NB15 .csv files.
+        cat_reduce: bool, reduce categorical columns to only a select group of
+           entries. Defaults to True.
+        drop_cols: list, columns to drop from the original data. Defauls to a
+            pre_determined list of columns that are not informative in a 
+            modeling context.
+    Returns:
+        Pandas DataFrame with NaN values imputed, categories reduced if 
+        desired, and columns dropped as specified.
 	'''
 	dfs = []
 	for i in range(1,5):
@@ -41,25 +53,34 @@ def load_agg_data(data_dir='./data/'):
 	    'state':['fin', 'con', 'int'],
 	    'service':['-', 'dns']
 	}
-	for col, keepers in transformations.items():
-	    all_data[col] = all_data[col].apply(reduce_column, args=(keepers,))
+	if cat_reduce == True:
+		for col, keepers in transformations.items():
+			all_data[col] = all_data[col].apply(reduce_column,
+	    		args=(keepers,))
 
 	# Return with non-informative data eliminated
-	drop_cols = ['srcip', 'sport', 'dstip', 'dsport','stcpb', 'dtcpb']
-	return all_data.drop(columns=drop_cols)
+	drop_cols = ['srcip', 'sport', 'dstip', 'dsport','stcpb',
+	    'dtcpb','ltime', 'stime']
+	if drop_cols:
+		return all_data.drop(columns=drop_cols)
+	else:
+		return all_data
 
-def load_agg_Xy(path='./data/', sample_size=0.25, strat_cat='label'):
+def load_agg_Xy(path='./data/', sample_size=0.25, strat_cat='label',
+	    rnd_state=None):
 	'''
-	Wrapper function for loading smaller subset of UNSW-NB15 dataset.
+	Wrapper function for loading smaller subset of the full UNSW-NB15
+	dataset. Calls `load_agg_data` and 
 	---
 	Inputs:
 
 	'''
-	df = load_agg_data(path=path)
-	_, X, _, y = train_test_split(df.iloc[:,:-1],df[strat_cat],
-		stratify=df[strat_cat], test_size=sample_size)
-	return X, y
 
+	df = load_agg_data(data_dir=path)
+	_, X, _, y = train_test_split(df.iloc[:,:-2],df[strat_cat],
+		stratify=df[strat_cat], test_size=sample_size,
+		random_state=rnd_state)
+	return X.reset_index(drop=True), y.reset_index(drop=True)
 
 
 def load_csv_data(path, strategy='basic', to_exclude='object'):
