@@ -155,5 +155,4 @@ attack_to_num = {
 	'reconnaissance':7,
 	'shellcode':8,
 	'worms':9
-
 }
